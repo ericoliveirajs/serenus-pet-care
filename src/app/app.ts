@@ -1,11 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { LandingComponent } from '../landing/landing';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  standalone: true,
+  imports: [LandingComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss'] 
 })
 export class App {
-  protected readonly title = signal('serenus-app');
+  title = 'serenus-pet-care';
 }

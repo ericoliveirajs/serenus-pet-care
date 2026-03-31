@@ -1,0 +1,73 @@
+<div class="landing-container">
+  <header class="header">
+    <img src="assets/logo-serenus.jpg" alt="Logo Serenus Pet Care" class="logo">
+  </header>
+
+  <main class="main-content watermark-bg">
+    
+    <div class="text-section">
+      <h1 class="title">Banho & Tosa com amor e segurança.</h1>
+      <p class="subtitle">
+        Traga seu melhor amigo para a Serenus Pet Care. 
+        Preencha o formulário abaixo para garantir um desconto especial no primeiro banho e tosa!
+      </p>
+      <div class="benefits">
+        <span class="icon">✓</span>
+        <span>Profissionais qualificados e ambiente seguro.</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-card">
+        <h2>Agende o horário do seu Pet</h2>
+        
+        <form (ngSubmit)="onSubmit()" #leadForm="ngForm">
+          <div class="form-group">
+            <label for="nome">Seu Nome</label>
+            <input type="text" id="nome" name="nome" [(ngModel)]="lead.nome" placeholder="Ex: João da Silva" required>
+          </div>
+
+          <div class="form-group">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="tel" id="whatsapp" name="whatsapp" [(ngModel)]="lead.whatsapp" placeholder="(11) 99999-9999" required>
+          </div>
+
+          <div class="form-group">
+            <label for="nomePet">Nome do Pet</label>
+            <input type="text" id="nomePet" name="nomePet" [(ngModel)]="lead.nomePet" placeholder="Ex: Dante" required>
+          </div>
+
+          <button type="submit" [disabled]="!leadForm.form.valid" class="submit-btn">
+            Quero meu Desconto!
+          </button>
+        </form>
+        <p class="security-text">Seus dados estão seguros conosco.</p>
+      </div>
+    </div>
+  </main>
+
+  <section class="carousel-section">
+    <h2>Nossos Clientes Felizes 🐾</h2>
+    <div class="carousel-container">
+      <button class="nav-btn prev" (click)="prevImage()">&#10094;</button>
+      
+      <div class="image-wrapper">
+        <img [src]="petImages[currentImageIndex]" alt="Pet no Serenus Pet Care" class="carousel-image">
+      </div>
+
+      <button class="nav-btn next" (click)="nextImage()">&#10095;</button>
+    </div>
+
+    <div class="carousel-indicators">
+      <span *ngFor="let img of petImages; let i = index" 
+            class="dot" 
+            [class.active]="i === currentImageIndex"
+            (click)="currentImageIndex = i">
+      </span>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2026 Serenus Pet Care. Todos os direitos reservados.</p>
+  </footer>
+</div>
