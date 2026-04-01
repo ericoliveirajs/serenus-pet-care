@@ -1,23 +1,23 @@
-# Usa uma imagem leve do Node
 FROM node:18-alpine
 
-# Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia os arquivos de dependência primeiro (para aproveitar o cache do Docker)
+# Copia os arquivos de definição primeiro
 COPY package*.json ./
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
 
-# Instala as dependências
+# Instala todas as dependências (necessárias para o build)
 RUN npm install
 
-# Copia o restante do código da aplicação
+# Copia o restante do código
 COPY . .
 
-# Faz o build da aplicação NestJS
+# Executa o build (isso vai gerar a pasta dist/src)
 RUN npm run build
 
-# O Railway injeta a porta dinamicamente, mas expomos a 3000 por padrão
+# O Render usa a porta 3000 por padrão, mas injeta a variável PORT
 EXPOSE 3000
 
-# Comando para iniciar a aplicação compilada
+# Executa o script que acabamos de ajustar no package.json
 CMD ["npm", "run", "start:prod"]
