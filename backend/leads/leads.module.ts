@@ -4,7 +4,7 @@ import { LeadsController } from './leads.controller';
 import { Lead } from './leads.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Lead])], // Registra a tabela Lead
+  imports: [TypeOrmModule.forFeature([Lead])], 
   controllers: [LeadsController],
 })
 export class LeadsModule {}
