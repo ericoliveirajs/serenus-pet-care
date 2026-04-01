@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LeadService } from '../services/lead.service';
 
 @Component({
   selector: 'app-landing',
@@ -23,7 +24,9 @@ export class LandingComponent implements OnInit {
   ];
   currentImageIndex = 0;
 
-  // É esta função que faz o carrossel rodar automaticamente
+  // Injetamos o serviço no construtor
+  constructor(private leadService: LeadService) {}
+
   ngOnInit() {
     setInterval(() => {
       this.nextImage();
@@ -39,7 +42,18 @@ export class LandingComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Lead capturado:', this.lead);
-    alert('Cadastro realizado com sucesso! Entraremos em contato.');
+    // Agora sim! Chamamos o serviço e damos o .subscribe()
+    this.leadService.salvar(this.lead).subscribe({
+      next: (res) => {
+        console.log('Sucesso! Lead salvo no Supabase:', res);
+        alert('Cadastro realizado com sucesso! Entraremos em contato para cuidar do seu pet.');
+        // Limpa o formulário após o sucesso
+        this.lead = { nome: '', whatsapp: '', nomePet: '' };
+      },
+      error: (err) => {
+        console.error('Erro ao conectar com a API no Render:', err);
+        alert('Ops! Ocorreu um erro. Verifique sua conexão.');
+      }
+    });
   }
 }
