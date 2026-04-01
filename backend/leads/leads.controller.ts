@@ -1,18 +1,24 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Lead } from './leads.entity';
 
 @Controller('leads')
 export class LeadsController {
-  
+  constructor(
+    @InjectRepository(Lead)
+    private readonly leadsRepository: Repository<Lead>,
+  ) {}
+
   @Post()
-  receberLead(@Body() leadData: any) {
-    console.log('Novo lead recebido do formulário:', leadData);
-    
-    // Futuramente, aqui você injeta o Service/Prisma/TypeORM para salvar no Banco de Dados
+  async receberLead(@Body() leadData: Partial<Lead>) {
+    // Aqui a mágica acontece: salva no Postgres do Supabase
+    const novoLead = await this.leadsRepository.save(leadData);
     
     return { 
       sucesso: true, 
-      mensagem: 'Lead cadastrado com sucesso e pronto para o banco!',
-      dados: leadData 
+      mensagem: 'Lead salvo no banco com sucesso!',
+      id: novoLead.id 
     };
   }
 }
